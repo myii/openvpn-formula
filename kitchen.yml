@@ -132,7 +132,7 @@ platforms:
 
 provisioner:
   name: salt_solo
-  log_level: info
+  log_level: debug
   salt_install: none
   require_chef: false
   formula: openvpn
@@ -154,7 +154,10 @@ suites:
       state_top:
         base:
           '*':
+            - openvpn
             - openvpn.config
+            - openvpn.service
+            - openvpn.service_again
       pillars:
         top.sls:
           base:

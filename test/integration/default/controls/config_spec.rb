@@ -28,6 +28,11 @@ group = 'openvpn'
       its('content') { should include "# OpenVPN #{role} configuration" }
       its('content') { should include '# Managed by Salt' }
       its('content') { should include 'user' }
+
+      if role == 'client'
+        its('content') { should include 'auth-nocache' }
+      end
+
     end
   end
 

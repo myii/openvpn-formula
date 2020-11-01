@@ -286,7 +286,7 @@ suites:
         base:
           '*':
             - openvpn._mapdata
-            - openvpn.config
+            # - openvpn.config
       pillars:
         top.sls:
           base:

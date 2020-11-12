@@ -1,6 +1,14 @@
 # yamllint disable rule:indentation rule:line-length
 # Amazon Linux-2
 ---
+map_jinja:
+  sources:
+  - Y:G@osarch
+  - Y:G@os_family
+  - Y:G@os
+  - Y:G@osfinger
+  - C@openvpn:lookup
+  - Y:G@id
 bin_dir: null
 conf_dir: /etc/openvpn
 conf_ext: conf

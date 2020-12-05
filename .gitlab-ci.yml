@@ -85,8 +85,14 @@ commitlint:
 # EP:  extra packages required for the specific test
 
 # yamllint disable rule:commas rule:line-length
+default-debian-10-master-py3: {extends: '.test_image', variables: {INSTANCE: 'default-debian-10-master-py3'}}
+default-ubuntu-2004-master-py3: {extends: '.test_image', variables: {INSTANCE: 'default-ubuntu-2004-master-py3'}}
+default-centos-7-master-py3: {extends: '.test_image', variables: {INSTANCE: 'default-centos-7-master-py3'}}
+default-opensuse-leap-152-master-py3: {extends: '.test_image', variables: {INSTANCE: 'default-opensuse-leap-152-master-py3'}}
+default-amazonlinux-2-master-py3: {extends: '.test_image', variables: {INSTANCE: 'default-amazonlinux-2-master-py3'}}
+default-oraclelinux-7-3002-0-py3: {extends: '.test_image', variables: {INSTANCE: 'default-oraclelinux-7-3002-0-py3'}}
 # AMAZONLINUX
-amaz-02.0-tiamat-py3: {extends: '.test_image', variables: {INSTANCE: 'default-amazonlinux-2-tiamat-py3'}}
+# default-amaz-02.0-tiamat-py3: {extends: '.test_image', variables: {INSTANCE: 'default-amazonlinux-2-tiamat-py3'}}
 # amaz-02.0-master-py3: {extends: '.test_image', variables: {DN: 'amazonlinux'    , DV: '2'      , PI: 'yum' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'yum-utils python3-pip procps-ng'}}
 # amaz-02.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'amazonlinux'    , DV: '2'      , PI: 'yum' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'yum-utils python3-pip procps-ng'}}
 # amaz-02.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'amazonlinux'    , DV: '2'      , PI: 'yum' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'yum-utils python3-pip procps-ng'}}

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.1](https://github.com/myii/openvpn-formula/compare/v1.14.0...v1.14.1) (2020-12-05)
+
+
+### Bug Fixes
+
+* **gitlab:** ensure changelog working as required ([228ae32](https://github.com/myii/openvpn-formula/commit/228ae327bf168b6662b50916cb0859bd6dad38f8))
+
 # [1.14.0](https://github.com/myii/openvpn-formula/compare/v1.13.0...v1.14.0) (2020-12-05)
 
 

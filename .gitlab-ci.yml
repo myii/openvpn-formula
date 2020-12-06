@@ -25,7 +25,7 @@
 ###############################################################################
 stages:
   - *stage_lint
-  # - *stage_test
+  - *stage_test
   - *stage_release
 variables:
   DOCKER_DRIVER: 'overlay2'
@@ -54,32 +54,55 @@ pre-commit:
   image: *image_precommit
   # https://pre-commit.com/#gitlab-ci-example
   variables:
-    PRE_COMMIT_HOME: '${CI_PROJECT_DIR}/.cache/pre-commit/'
+    PRE_COMMIT_HOME: '${CI_PROJECT_DIR}/.cache/pre-commit'
   cache:
+    # key: '${CI_BUILD_REF_NAME}'
+    key: '${CI_JOB_NAME}'
     paths:
       - '${PRE_COMMIT_HOME}'
   before_script:
+    - 'export'
     # Install all required packages
     - 'apk update
        && apk add ruby-full shellcheck'
   script:
     - 'pre-commit run --all-files --color always --verbose'
 
-# ###############################################################################
-# # Define `test` template
-# ###############################################################################
-# .test_image:
-#   stage: *stage_test
-#   image: *image_docker
-#   services:
-#     - 'docker:dind'
-#   before_script:
-#     - 'apk update
-#        && apk add git ruby-full ruby-dev make cmake gcc g++ libc-dev'
-#     - 'gem install bundler'
-#     - 'bundle install'
-#   script:
-#     - 'bin/kitchen verify "${INSTANCE}"'
+###############################################################################
+# Define `test` template
+###############################################################################
+.test_image:
+  stage: *stage_test
+  image: *image_docker
+  # https://forum.gitlab.com/t/gitlab-com-ci-caching-rubygems/5627/3
+  # https://bundler.io/v1.16/bundle_config.html
+  variables:
+    BUNDLE_CACHE_PATH: '${CI_PROJECT_DIR}/.cache/bundler'
+    BUNDLE_WITHOUT: 'production'
+    # # Perhaps could do without the `DOCKER_ENV_` prefix
+    # INSTANCE: '${DOCKER_ENV_CI_JOB_NAME}'
+  cache:
+    # key: '${CI_BUILD_REF_NAME}'
+    key: '${CI_JOB_STAGE}'
+    paths:
+      - '${BUNDLE_CACHE_PATH}'
+  services:
+    - 'docker:dind'
+  before_script:
+    - 'export'
+    - 'apk update
+       && apk add git ruby-full ruby-dev make cmake gcc g++ libc-dev'
+    - 'gem install bundler'
+    - 'bundle config'
+    # TODO: This should work from the env vars above automatically
+    # - 'bundle install --path=${BUNDLE_CACHE_PATH} --without=${BUNDLE_WITHOUT}'
+    - 'bundle config set path "${BUNDLE_CACHE_PATH}"'
+    - 'bundle config set without "${BUNDLE_WITHOUT}"'
+    - 'bundle install'
+    - 'find / -type d -name bundler'
+    - 'ls -al "${BUNDLE_CACHE_PATH}"'
+  script:
+    - 'bin/kitchen verify "${INSTANCE}"'
 
 ###############################################################################
 # `test` stage: `...`
@@ -95,8 +118,9 @@ pre-commit:
 # EP:  extra packages required for the specific test
 
 # yamllint disable rule:commas rule:line-length
-# default-debian-10-master-py3: {extends: '.test_image', variables: {INSTANCE: 'default-debian-10-master-py3'}}
-# default-ubuntu-2004-master-py3: {extends: '.test_image', variables: {INSTANCE: 'default-ubuntu-2004-master-py3'}}
+# Perhaps could do without the `DOCKER_ENV_` prefix
+default-debian-10-master-py3: {extends: '.test_image', variables: {INSTANCE: 'default-debian-10-master-py3'}}
+default-ubuntu-2004-master-py3: {extends: '.test_image', variables: {INSTANCE: 'default-ubuntu-2004-master-py3'}}
 # default-centos-7-master-py3: {extends: '.test_image', variables: {INSTANCE: 'default-centos-7-master-py3'}}
 # default-opensuse-leap-152-master-py3: {extends: '.test_image', variables: {INSTANCE: 'default-opensuse-leap-152-master-py3'}}
 # default-amazonlinux-2-master-py3: {extends: '.test_image', variables: {INSTANCE: 'default-amazonlinux-2-master-py3'}}
@@ -213,12 +237,16 @@ semantic-release:
   only: *only_branch_master
   stage: *stage_release
   image: *image_node
-  before_script: *before_script_image_node
+  # before_script: *before_script_image_node
+  before_script:
+    - 'apt-get update
+       && apt-get install -y --no-install-recommends git-core ca-certificates'
+    - 'apt-get install -y --no-install-recommends golang python3-pip'
   script:
     # # Update `AUTHORS.md`
     # - export MAINTAINER_TOKEN=${GH_TOKEN}
     # - go get github.com/myii/maintainer
-    # - maintainer contributor
+    # - ${HOME}/go/bin/maintainer contributor
 
     # Install all dependencies required for `semantic-release`
     - 'npm install -g semantic-release

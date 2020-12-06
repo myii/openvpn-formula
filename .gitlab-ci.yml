@@ -52,34 +52,18 @@ variables:
 pre-commit:
   stage: *stage_lint
   image: *image_precommit
-  # Paths are relative to the project directory (${CI_PROJECT_DIR}) and
-  # can't directly link outside it:
-  # - https://docs.gitlab.com/ee/ci/yaml/README.html#cachepaths
-  # So use following workaround to cache `/root/.cache/pre-commit/`
-  # - https://gitlab.com/gitlab-org/gitlab-runner/-/issues/327#note_225643576
+  # https://pre-commit.com/#gitlab-ci-example
+  variables:
+    PRE_COMMIT_HOME: '${CI_PROJECT_DIR}/.cache/pre-commit/'
   cache:
     paths:
-      - '${CI_PROJECT_DIR}/.cache/pre-commit/'
+      - '${PRE_COMMIT_HOME}'
   before_script:
-    # Restore cached files if they exist
-    - |
-        if [ -d ${CI_PROJECT_DIR}/.cache/pre-commit/ ]; then
-          mkdir -p ${HOME}/.cache/
-          mv ${CI_PROJECT_DIR}/.cache/pre-commit/ ${HOME}/.cache/
-        fi
     # Install all required packages
     - 'apk update
        && apk add ruby-full shellcheck'
   script:
     - 'pre-commit run --all-files --color always --verbose'
-    # - 'echo "${CI_PROJECT_DIR}"'
-    # - 'pwd'
-    # - 'find / -type d -name pre-commit'
-    # - 'find / -type d -name pre-commit -exec ls -al {} \;'
-after_script:
-  # Move pre-commit cache directory to project directory for caching
-  - 'mkdir -p ${CI_PROJECT_DIR}/.cache/'
-  - 'mv ${HOME}/.cache/pre-commit/ ${CI_PROJECT_DIR}/.cache/'
 
 # ###############################################################################
 # # Define `test` template

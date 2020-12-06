@@ -10,9 +10,9 @@
   # `image`
   image_docker: &image_docker 'docker:latest'
   image_node: &image_node 'node:12-buster-slim'
-  image_yamllint: &image_yamllint
-    name: 'cytopia/yamllint:latest'
-    entrypoint: ['/bin/ash', '-c']
+  image_precommit: &image_precommit
+    name: 'fxinnovation/pre-commit:latest'
+    entrypoint: ['/bin/bash', '-c']
   # `before_script`
   before_script_image_node: &before_script_image_node
     - 'apt-get update
@@ -31,29 +31,55 @@ variables:
   DOCKER_DRIVER: 'overlay2'
 
 ###############################################################################
-# `lint` stage: `yamllint` & `commitlint`
+# `lint` stage: `pre-commit` & `commitlint`
 ###############################################################################
-# yamllint:
+# commitlint:
 #   stage: *stage_lint
-#   image: *image_yamllint
+#   image: *image_node
+#   before_script: *before_script_image_node
 #   script:
-#     - 'yamllint -s .'
+#     # Add `upstream` remote to get access to `upstream/master`
+#     - 'git remote add upstream
+#        https://gitlab.com/myii/openvpn-formula.git'
+#     - 'git fetch --all'
+#     # Install and run `commitlint`
+#     - 'npm install -D @commitlint/config-conventional
+#                       @commitlint/cli'
+#     - 'npx commitlint --from "$(git merge-base upstream/master HEAD)"
+#                       --to   "${CI_COMMIT_SHA}"
+#                       --verbose'
 
-commitlint:
+pre-commit:
   stage: *stage_lint
-  image: *image_node
-  before_script: *before_script_image_node
+  image: *image_precommit
+  # Paths are relative to the project directory (${CI_PROJECT_DIR}) and
+  # can't directly link outside it:
+  # - https://docs.gitlab.com/ee/ci/yaml/README.html#cachepaths
+  # So use following workaround to cache `/root/.cache/pre-commit/`
+  # - https://gitlab.com/gitlab-org/gitlab-runner/-/issues/327#note_225643576
+  cache:
+    paths:
+      - '${CI_PROJECT_DIR}/.cache/pre-commit/'
+  before_script:
+    # Restore cached files if they exist
+    - |
+        if [ -d ${CI_PROJECT_DIR}/.cache/pre-commit/ ]; then
+          mkdir -p ${HOME}/.cache/
+          mv ${CI_PROJECT_DIR}/.cache/pre-commit/ ${HOME}/.cache/
+        fi
+    # Install all required packages
+    - 'apk update
+       && apk add ruby-full shellcheck'
   script:
-    # Add `upstream` remote to get access to `upstream/master`
-    - 'git remote add upstream
-       https://gitlab.com/myii/openvpn-formula.git'
-    - 'git fetch --all'
-    # Install and run `commitlint`
-    - 'npm install -D @commitlint/config-conventional
-                      @commitlint/cli'
-    - 'npx commitlint --from "$(git merge-base upstream/master HEAD)"
-                      --to   "${CI_COMMIT_SHA}"
-                      --verbose'
+    - 'pre-commit run --all-files --color always --verbose'
+    # - 'echo "${CI_PROJECT_DIR}"'
+    # - 'pwd'
+    # - 'find / -type d -name pre-commit'
+    # - 'find / -type d -name pre-commit -exec ls -al {} \;'
+after_script:
+  # Move pre-commit cache directory to project directory for caching
+  - 'mkdir -p ${CI_PROJECT_DIR}/.cache/'
+  - 'mv ${HOME}/.cache/pre-commit/ ${CI_PROJECT_DIR}/.cache/'
 
 # ###############################################################################
 # # Define `test` template

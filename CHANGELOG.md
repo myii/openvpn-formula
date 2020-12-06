@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.14.2](https://github.com/myii/openvpn-formula/compare/v1.14.1...v1.14.2) (2020-12-06)
+
+
+### Bug Fixes
+
+* **gitlab:** finalise `semantic-release` job ([916e2eb](https://github.com/myii/openvpn-formula/commit/916e2eb5b9614a967aa30bd3616ced56c40bebc7))
+
+
+### Continuous Integration
+
+* **github:** use official GitLab CI caching for `pre-commit` ([5ea7ed0](https://github.com/myii/openvpn-formula/commit/5ea7ed037ab1ab82d37e5826a4b2da962b4b6cc3))
+* **gitlab:** add bundler caching for test jobs ([175561c](https://github.com/myii/openvpn-formula/commit/175561c935cd90029063539574bb5cf26ee9819c))
+* **gitlab:** add pre-commit ([e9425f0](https://github.com/myii/openvpn-formula/commit/e9425f0f18a4798d90739504b1fe52b9f8b0abae))
+* **gitlab:** finalise configuration ([84a9006](https://github.com/myii/openvpn-formula/commit/84a90067163f201e2a8ed9dd9a554802e9845c78))
+* **gitlab:** fix `semantic-release` settings ([bc0eeb5](https://github.com/myii/openvpn-formula/commit/bc0eeb5d0f64d0d552429314143efc84d80d7fc5))
+* **gitlab:** use `${CI_PROJECT_URL}` for `commitlint` ([74483ae](https://github.com/myii/openvpn-formula/commit/74483ae4bea6a7e8ba3318077568995499ae7086))
+
 ## [1.14.1](https://github.com/myii/openvpn-formula/compare/v1.14.0...v1.14.1) (2020-12-05)
 
 

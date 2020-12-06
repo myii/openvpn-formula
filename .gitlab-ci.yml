@@ -242,14 +242,14 @@ semantic-release:
        && apt-get install -y --no-install-recommends git-core ca-certificates'
     - 'apt-get install -y --no-install-recommends golang python3-pip'
   script:
-    # # Update `AUTHORS.md`
-    # - export MAINTAINER_TOKEN=${GH_TOKEN}
-    # - go get github.com/myii/maintainer
-    # - ${HOME}/go/bin/maintainer contributor
+    # Update `AUTHORS.md`
+    - 'export MAINTAINER_TOKEN=${GH_TOKEN}'
+    - 'go get github.com/myii/maintainer'
+    - '${HOME}/go/bin/maintainer contributor'
 
     # Install all dependencies required for `semantic-release`
-    - 'npm install -g semantic-release
-                      @semantic-release/changelog
-                      @semantic-release/exec
-                      @semantic-release/git'
+    - 'npm install -g semantic-release@15.14
+                      @semantic-release/changelog@3
+                      @semantic-release/exec@3
+                      @semantic-release/git@7'
     - 'semantic-release'

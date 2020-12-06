@@ -33,21 +33,20 @@ variables:
 ###############################################################################
 # `lint` stage: `pre-commit` & `commitlint`
 ###############################################################################
-# commitlint:
-#   stage: *stage_lint
-#   image: *image_node
-#   before_script: *before_script_image_node
-#   script:
-#     # Add `upstream` remote to get access to `upstream/master`
-#     - 'git remote add upstream
-#        https://gitlab.com/myii/openvpn-formula.git'
-#     - 'git fetch --all'
-#     # Install and run `commitlint`
-#     - 'npm install -D @commitlint/config-conventional
-#                       @commitlint/cli'
-#     - 'npx commitlint --from "$(git merge-base upstream/master HEAD)"
-#                       --to   "${CI_COMMIT_SHA}"
-#                       --verbose'
+commitlint:
+  stage: *stage_lint
+  image: *image_node
+  before_script: *before_script_image_node
+  script:
+    # Add `upstream` remote to get access to `upstream/master`
+    - 'git remote add upstream ${CI_PROJECT_URL}.git'
+    - 'git fetch --all'
+    # Install and run `commitlint`
+    - 'npm install -D @commitlint/config-conventional
+                      @commitlint/cli'
+    - 'npx commitlint --from "$(git merge-base upstream/master HEAD)"
+                      --to   "${CI_COMMIT_SHA}"
+                      --verbose'
 
 pre-commit:
   stage: *stage_lint

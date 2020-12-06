@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.6](https://github.com/myii/openvpn-formula/compare/v1.14.5...v1.14.6) (2020-12-06)
+
+
+### Bug Fixes
+
+* **gitlab:** add caches where `npm install` is used ([0c34547](https://github.com/myii/openvpn-formula/commit/0c345475d0a0728b47f58824fd52423bcc50a7ea))
+
 ## [1.14.5](https://github.com/myii/openvpn-formula/compare/v1.14.4...v1.14.5) (2020-12-06)
 
 

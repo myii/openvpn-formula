@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.3](https://github.com/myii/openvpn-formula/compare/v1.14.2...v1.14.3) (2020-12-06)
+
+
+### Bug Fixes
+
+* **pre-commit_semantic-release.sh:** install `m2r` without `sudo` ([e6ee33d](https://github.com/myii/openvpn-formula/commit/e6ee33d972cda933ae7e1814e131ed977fa7b180))
+
 ## [1.14.2](https://github.com/myii/openvpn-formula/compare/v1.14.1...v1.14.2) (2020-12-06)
 
 

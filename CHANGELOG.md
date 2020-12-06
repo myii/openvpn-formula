@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.7](https://github.com/myii/openvpn-formula/compare/v1.14.6...v1.14.7) (2020-12-06)
+
+
+### Code Refactoring
+
+* **gitlab:** use `variables` for `MAINTAINER_TOKEN` ([f6990cc](https://github.com/myii/openvpn-formula/commit/f6990cc79cc9f1803402d5a3c22e13e9478f8a7f))
+
 ## [1.14.6](https://github.com/myii/openvpn-formula/compare/v1.14.5...v1.14.6) (2020-12-06)
 
 

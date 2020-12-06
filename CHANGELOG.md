@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.5](https://github.com/myii/openvpn-formula/compare/v1.14.4...v1.14.5) (2020-12-06)
+
+
+### Bug Fixes
+
+* **m2r:** move back to script so latest changelog is included ([de357c8](https://github.com/myii/openvpn-formula/commit/de357c8ff1fa416c8c19a1618c9bdad0350b312a))
+
 ## [1.14.4](https://github.com/myii/openvpn-formula/compare/v1.14.3...v1.14.4) (2020-12-06)
 
 

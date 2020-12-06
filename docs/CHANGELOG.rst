@@ -2,6 +2,25 @@
 Changelog
 =========
 
+`1.14.5 <https://github.com/myii/openvpn-formula/compare/v1.14.4...v1.14.5>`_ (2020-12-06)
+----------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* **m2r:** move back to script so latest changelog is included (\ `de357c8 <https://github.com/myii/openvpn-formula/commit/de357c8ff1fa416c8c19a1618c9bdad0350b312a>`_\ )
+
+`1.14.4 <https://github.com/myii/openvpn-formula/compare/v1.14.3...v1.14.4>`_ (2020-12-06)
+----------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* **m2r:** ensure ``setuptools`` & ``wheel`` available (\ `f80c334 <https://github.com/myii/openvpn-formula/commit/f80c334ba219ac988009c0108c0f6ecc25c8ee7d>`_\ )
+* **m2r:** run in CI directly rather than via. ``semantic-release`` (\ `a764dfd <https://github.com/myii/openvpn-formula/commit/a764dfda4a4e168d3640b8e3f9a4c0f50b82843a>`_\ )
+
 `1.14.3 <https://github.com/myii/openvpn-formula/compare/v1.14.2...v1.14.3>`_ (2020-12-06)
 ----------------------------------------------------------------------------------------------
 

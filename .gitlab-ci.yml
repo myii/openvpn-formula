@@ -10,14 +10,10 @@
   # `image`
   image_commitlint: &image_commitlint 'myii/ssf-commitlint:11'
   image_dindruby: &image_dindruby 'myii/ssf-dind-ruby:2.7.1-r3'
-  image_node: &image_node 'node:12-buster-slim'
   image_precommit: &image_precommit
     name: 'myii/ssf-pre-commit:2.9.2'
     entrypoint: ['/bin/bash', '-c']
-  # `before_script`
-  before_script_image_node: &before_script_image_node
-    - 'apt-get update
-       && apt-get install -y --no-install-recommends git-core ca-certificates'
+  image_semantic-release: &image_semanticrelease 'myii/ssf-semantic-release:15.14'
   # `only` (also used for `except` where applicable)
   only_branch_master: &only_branch_master ['master']
 
@@ -178,27 +174,11 @@ default-oraclelinux-7-3002-0-py3: {extends: '.test_instance'}
 semantic-release:
   only: *only_branch_master
   stage: *stage_release
-  image: *image_node
+  image: *image_semanticrelease
   variables:
     MAINTAINER_TOKEN: '${GH_TOKEN}'
-    NODE_DEPS_DIR: '${CI_PROJECT_DIR}/node_modules'
-  cache:
-    key: '${CI_JOB_NAME}'
-    paths:
-      - '${NODE_DEPS_DIR}'
-  # before_script: *before_script_image_node
-  before_script:
-    - 'apt-get update
-       && apt-get install -y --no-install-recommends
-                             git-core ca-certificates golang python3-pip
-                             python3-setuptools python3-wheel'
   script:
-    ## Update `AUTHORS.md`
-    - 'go get github.com/myii/maintainer'
+    # Update `AUTHORS.md`
     - '${HOME}/go/bin/maintainer contributor'
-
-    ## Install all dependencies required for `semantic-release`
-    - 'npm install -D @semantic-release/changelog@3
-                      @semantic-release/exec@3
-                      @semantic-release/git@7'
-    - 'npx semantic-release@15.14'
+    # Run `semantic-release`
+    - 'semantic-release'

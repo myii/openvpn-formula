@@ -2,6 +2,18 @@
 Changelog
 =========
 
+`1.15.0 <https://github.com/myii/openvpn-formula/compare/v1.14.7...v1.15.0>`_ (2020-12-07)
+----------------------------------------------------------------------------------------------
+
+Features
+^^^^^^^^
+
+
+* **gitlab-ci:** use custom ``commitlint`` image (\ `c62f770 <https://github.com/myii/openvpn-formula/commit/c62f770614a8cb0ac72a971f026b0b90ec4cbd50>`_\ )
+* **gitlab-ci:** use custom ``dind-ruby`` image (\ `3acc86c <https://github.com/myii/openvpn-formula/commit/3acc86c42aeb8a2f1a75fcbacdb56b389254cdf9>`_\ )
+* **gitlab-ci:** use custom ``pre-commit`` image (\ `0ffb4f3 <https://github.com/myii/openvpn-formula/commit/0ffb4f32106defa2a7315fcb3f78f67900d8b768>`_\ )
+* **gitlab-ci:** use custom ``semantic-release`` image (\ `312e6db <https://github.com/myii/openvpn-formula/commit/312e6db5267ea7572a197414fac0ea7f657fe67e>`_\ )
+
 `1.14.7 <https://github.com/myii/openvpn-formula/compare/v1.14.6...v1.14.7>`_ (2020-12-06)
 ----------------------------------------------------------------------------------------------
 

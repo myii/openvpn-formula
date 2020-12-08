@@ -2,6 +2,15 @@
 Changelog
 =========
 
+`1.15.1 <https://github.com/myii/openvpn-formula/compare/v1.15.0...v1.15.1>`_ (2020-12-08)
+----------------------------------------------------------------------------------------------
+
+Code Refactoring
+^^^^^^^^^^^^^^^^
+
+
+* **gitlab-ci:** set final format before testing with other repos (\ `2f6f9c4 <https://github.com/myii/openvpn-formula/commit/2f6f9c4443a0886ce759f21a34fe515abd574498>`_\ )
+
 `1.15.0 <https://github.com/myii/openvpn-formula/compare/v1.14.7...v1.15.0>`_ (2020-12-07)
 ----------------------------------------------------------------------------------------------
 

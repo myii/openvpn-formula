@@ -27,10 +27,8 @@ class SystemResource < Inspec.resource(1)
 
   def build_platform_family
     case inspec.platform[:name]
-    when 'arch'
-      'arch'
-    when 'gentoo'
-      'gentoo'
+    when 'arch', 'gentoo'
+      inspec.platform[:name]
     else
       inspec.platform[:family]
     end

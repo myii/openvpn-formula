@@ -1,0 +1,179 @@
+= openvpn-formula
+
+https://travis-ci.com/saltstack-formulas/openvpn-formula[image:https://travis-ci.com/saltstack-formulas/openvpn-formula.svg?branch=master[Travis CI Build Status]]
+https://github.com/semantic-release/semantic-release[image:https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg[Semantic Release]]
+
+Formula to install and configure openvpn server and client.
+
+== General notes
+
+See the full
+https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html[SaltStack
+Formulas installation and usage instructions].
+
+If you are interested in writing or contributing to formulas, please pay
+attention to the
+https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#writing-formulas[Writing
+Formula Section].
+
+If you want to use this formula, please pay attention to the `FORMULA`
+file and/or `git tag`, which contains the currently released version.
+This formula is versioned according to http://semver.org/[Semantic
+Versioning].
+
+See
+https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#versioning[Formula
+Versioning Section] for more details.
+
+If you need (non-default) configuration, please refer to:
+
+* xref:main::map.jinja.adoc[how to configure the formula with map.jinja]
+* the `pillar.example` file
+
+== Contributing to this repo
+
+*Commit message formatting is significant!!*
+
+Please see
+xref:main::CONTRIBUTING.adoc[How
+to contribute] for more details.
+
+== Available states
+
+=== `openvpn`
+
+Installs OpenVPN.
+
+=== `openvpn.config`
+
+Configures OpenVPN client and server. Multiple clients and servers are
+possible.
+
+=== `openvpn.gui`
+
+Configures OpenVPN GUI (Windows only). Sets global registry settings as
+described
+https://github.com/OpenVPN/openvpn-gui/#registry-values-affecting-the-openvpn-gui-operation[here].
+
+=== `openvpn.adapters`
+
+Manages TAP-Windows device adapters (Windows only). Ensures that any
+devices specified with `dev_node` in pillar exist.
+
+=== `openvpn.ifconfig_pool_persist`
+
+Installs and configures an ifconfig_pool_persist file. Used to assign
+host IPs.
+
+=== `openvpn.network_manager_networks`
+
+Don't setup a OpenVPN client service, but add ready-to-use
+NetworkManager configurations.
+
+== Examples
+
+See _openvpn/pillar.example_.
+
+== Notes
+
+This formula does can optionally deploy certificates and keys, but does
+not generate them. This must be done manually or with another formula.
+
+== Testing
+
+Linux testing is done with `kitchen-salt`.
+
+=== Requirements
+
+* Ruby
+* Docker
+
+[source,bash]
+----
+$ gem install bundler
+$ bundle install
+$ bin/kitchen test [platform]
+----
+
+Where `[platform]` is the platform name defined in `kitchen.yml`, e.g.
+`debian-9-2019-2-py3`.
+
+=== `bin/kitchen converge`
+
+Creates the docker instance and runs the `openvpn` main state, ready for
+testing.
+
+=== `bin/kitchen verify`
+
+Runs the `inspec` tests on the actual instance.
+
+=== `bin/kitchen destroy`
+
+Removes the docker instance.
+
+=== `bin/kitchen test`
+
+Runs all of the stages above in one go: i.e. `destroy` + `converge` +
+`verify` + `destroy`.
+
+=== `bin/kitchen login`
+
+Gives you SSH access to the instance for manual testing.
+
+== Testing with Vagrant
+
+Windows/FreeBSD/OpenBSD testing is done with `kitchen-salt`.
+
+=== Requirements
+
+* Ruby
+* Virtualbox
+* Vagrant
+
+=== Setup
+
+[source,bash]
+----
+$ gem install bundler
+$ bundle install --with=vagrant
+$ bin/kitchen test [platform]
+----
+
+Where `[platform]` is the platform name defined in
+`kitchen.vagrant.yml`, e.g. `windows-81-latest-py3`.
+
+=== Note
+
+When testing using Vagrant you must set the environment variable
+`KITCHEN_LOCAL_YAML` to `kitchen.vagrant.yml`. For example:
+
+[source,bash]
+----
+$ KITCHEN_LOCAL_YAML=kitchen.vagrant.yml bin/kitchen test      # Alternatively,
+$ export KITCHEN_LOCAL_YAML=kitchen.vagrant.yml
+$ bin/kitchen test
+----
+
+Then run the following commands as needed.
+
+=== `bin/kitchen converge`
+
+Creates the Vagrant instance and runs the `openvpn` main state, ready
+for testing.
+
+=== `bin/kitchen verify`
+
+Runs the `inspec` tests on the actual instance.
+
+=== `bin/kitchen destroy`
+
+Removes the Vagrant instance.
+
+=== `bin/kitchen test`
+
+Runs all of the stages above in one go: i.e. `destroy` + `converge` +
+`verify` + `destroy`.
+
+=== `bin/kitchen login`
+
+Gives you RDP/SSH access to the instance for manual testing.
